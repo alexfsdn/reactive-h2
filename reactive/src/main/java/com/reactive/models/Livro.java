@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "TB_LIVRO")
 public class Livro implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -20,11 +19,9 @@ public class Livro implements Serializable {
     private int numeroPaginas;
     private String nomeDaEditora;
 
-
     public Livro() {
 
     }
-
 
     public Livro(String nome, boolean capaDura, int numeroPaginas, String nomeDaEditora) {
         this.nome = nome;
