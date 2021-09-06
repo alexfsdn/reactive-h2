@@ -1,28 +1,35 @@
 package com.reactive.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.*;
+import java.io.Serializable;
 
-import java.util.UUID;
-
-@AllArgsConstructor
 @Data
-@Table
-public class Livro {
+@Entity
+@Table(name = "TB_LIVRO")
+public class Livro implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @org.springframework.data.annotation.Id
+    private Long id;
     private String nome;
     private boolean capaDura;
     private int numeroPaginas;
     private String nomeDaEditora;
 
 
+    public Livro() {
+
+    }
 
 
+    public Livro(String nome, boolean capaDura, int numeroPaginas, String nomeDaEditora) {
+        this.nome = nome;
+        this.capaDura = capaDura;
+        this.numeroPaginas = numeroPaginas;
+        this.nomeDaEditora = nomeDaEditora;
+    }
 }

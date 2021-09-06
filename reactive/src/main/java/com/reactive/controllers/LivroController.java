@@ -1,7 +1,9 @@
 package com.reactive.controllers;
 
+import com.reactive.dtos.LivroDto;
 import com.reactive.models.Livro;
 import com.reactive.services.LivroServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,29 +15,31 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/api")
 public class LivroController {
 
     @Autowired
-    LivroServiceImpl livroService;
+    private LivroServiceImpl livroService;
 
-    @GetMapping(value = "/livros")
+    @GetMapping(value = "/livros", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<Livro> find() {
         return livroService.findAll();
     }
 
-    @GetMapping(value = "/livros/{id}")
-    public Mono<Livro> find(@PathVariable String id) {
+    @GetMapping(value = "/livros/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Livro> find(@PathVariable Long id) {
         return livroService.findById(id);
     }
 
 
-    @PostMapping(value = "/livros")
-    public Mono<Livro> save(@RequestBody Livro livro) {
+    @PostMapping(value = "/livros", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Livro> save(@RequestBody LivroDto livroDto) {
+        Livro livro = new Livro();
+
+        BeanUtils.copyProperties(livroDto, livro);
         return livroService.save(livro);
     }
 
-    @GetMapping(value = "/playlist/webflux", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/livros/webflux", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Tuple2<Long, Livro>> findLivrosWebFlux() {
 
         System.out.println("---Start get Playlists by WEBFLUX--- " + LocalDateTime.now());
@@ -45,6 +49,5 @@ public class LivroController {
         return Flux.zip(interval, livroFlux);
 
     }
-
 
 }
