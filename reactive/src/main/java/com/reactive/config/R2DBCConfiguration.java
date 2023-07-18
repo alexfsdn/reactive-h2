@@ -10,7 +10,7 @@ import org.springframework.r2dbc.core.DatabaseClient;
 import java.util.stream.Stream;
 
 @Configuration
-public class R2dbcConfiguration {
+class R2dbcConfiguration {
 
     @Bean
     ApplicationRunner init(LivroRepository repository, DatabaseClient client) {
